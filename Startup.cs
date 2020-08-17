@@ -18,7 +18,18 @@ namespace First_Server
         string[] how = {"влажно", "вздыхая", "задумчиво"};
         string[] does = {"готовит", "прогает", "говорит"};
         string[] what = {"орех", "котлетка", "кот"};
-        string[] urls = {"http://f2a0e22862fa.ngrok.io", "http://f2a0e22862fa.ngrok.io"};
+        string[] urls = {"http://d0165c8e5358.ngrok.io", 
+        "http://12f1a14e7e50.ngrok.io", 
+        "http://4c1449a93861.ngrok.io", 
+        "http://7a45a5f78857.ngrok.io", 
+        "http://e77fd3b7ed59.ngrok.io",
+        "http://a089177a583a.ngrok.io",
+        "http://aba617d86eae.ngrok.io",
+        "http://26b139b05b0f.ngrok.io",
+        "http://ef845d6343d7.ngrok.io",
+        "http://5e9e572e07b3.ngrok.io",
+        "http://67e5aa89deb6.ngrok.io",
+        "http://8a2f59ef9085.ngrok.io"};
         string[] links = {"/who", "/how", "/does", "/what"};
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -103,18 +114,18 @@ namespace First_Server
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
+            using(StreamReader r = new StreamReader(response.GetResponseStream()))
+            {
+                word.Item1 = r.ReadToEnd();
+            }
             for(int i=0; i < response.Headers.Count; i++)
             {
                 if (response.Headers.Keys[i] == "InCamp-Student"){
-                    using(StreamReader r = new StreamReader(response.GetResponseStream()))
-                    {
-                        word.Item1 = r.ReadToEnd();
-                    }
                     word.Item2 = response.Headers[i];
                     break;
                 }
             }
-
+            
             return word;
         }
     }
