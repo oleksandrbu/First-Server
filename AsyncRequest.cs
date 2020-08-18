@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using System.Net;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace First_Server{
-    public class AsyncRequest : IRequest{
+    public class AsyncRequest : AbstructRequest, IRequest{
         public List<(string, string)> Request(){
             return AdditionalTask().Result;
         }
@@ -26,22 +24,6 @@ namespace First_Server{
             words.Add(((string, string)) task3.Result);
 
             return words;
-        }
-
-        private (string, string) GetRequest(string url){
-            (string, string) word = ("", "");
-            
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-            using(StreamReader r = new StreamReader(response.GetResponseStream())){
-                word.Item1 = r.ReadToEnd();
-            }
-            string[] values = response.Headers.GetValues("InCamp-Student");
-            for(int i = 0; i < values.Length; i++) 
-                word.Item2 += values[i];
-            
-            return word;
         }
     }
 }

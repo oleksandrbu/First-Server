@@ -84,11 +84,16 @@ namespace First_Server
                         requestLine += $"{words[i].Item1} from {words[i].Item2}<br>";
                     }
                     
-                    await context.Response.WriteAsync($"{requestWords}.<br>{requestLine}<br>For:{timeItTook}ms");
+                    await context.Response.WriteAsync($"{requestWords}.<br>{requestLine}<br>For:{timeItTook.Milliseconds}ms");
                 });
                 endpoints.MapGet("/tests", async context =>
                 {
                     FLAG = !FLAG;
+                    if (FLAG){
+                        await context.Response.WriteAsync("Async enable.");
+                    } else {
+                        await context.Response.WriteAsync("Async disable.");
+                    }                    
                 });
             });
         }
